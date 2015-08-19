@@ -9,7 +9,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.type.StandardBasicTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +31,6 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 	public void booksAuthorsPersistenceOperations() {
 		logger.debug(" ****** Hibernate One-Many Bidirectional - Foreignkey (Annotation) *** START **** ");
 		Session session = null;
-		Transaction tx = null;
 		try {
 			session = sessionFactory.openSession();
 			Set<Author> authors = new HashSet<Author>();
