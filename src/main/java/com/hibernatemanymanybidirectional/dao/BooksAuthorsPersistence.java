@@ -6,7 +6,9 @@ import java.util.GregorianCalendar;
 public interface BooksAuthorsPersistence {
 
 	public void booksAuthorsPersistenceOperations();
-	
-	public GregorianCalendar getDatefromSysDate();
+
+	public GregorianCalendar getGregorianCalendarfromSysDate();
+
+	public Date getDatefromSysDate();
 
 }

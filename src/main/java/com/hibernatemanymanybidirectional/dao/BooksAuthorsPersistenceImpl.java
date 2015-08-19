@@ -35,7 +35,6 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 		Transaction tx = null;
 		try {
 			session = sessionFactory.openSession();
-			tx = session.beginTransaction();
 			Set<Author> authors = new HashSet<Author>();
 			Set<Book> books = new HashSet<Book>();
 
@@ -64,12 +63,9 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 
 			OperationsUtils.queryLanguages(session);
 			OperationsUtils.namedQueries(session);
-			tx.commit();
 			session.close();
 		} catch (HibernateException e) {
 			e.printStackTrace();
-			if(tx.isActive())
-				tx.rollback();
 		}finally {
 			if(session.isOpen())
 				session.close();
@@ -84,16 +80,12 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 	 * ORACLE select SYSDATE from dual
 	 */
 	@Override
-	public GregorianCalendar getDatefromSysDate() {
+	public GregorianCalendar getGregorianCalendarfromSysDate() {
 		Session session = null;
 		GregorianCalendar gregorianCalendar = null;
 		try {
 		session = sessionFactory.openSession();
 		SQLQuery createSQLQuery = session.createSQLQuery("SELECT CURRENT_TIMESTAMP sysdateVal FROM SYSIBM.SYSDUMMY1");
-		
-		/* returns Date in a format : 2015-08-19
-		 * createSQLQuery.addScalar("sysdateVal",StandardBasicTypes.DATE);
-		 */
 		createSQLQuery.addScalar("sysdateVal",StandardBasicTypes.CALENDAR_DATE);
 		gregorianCalendar = (GregorianCalendar) createSQLQuery.uniqueResult();
 		session.close();
@@ -104,6 +96,28 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 				session.close();
 		}
 		return gregorianCalendar;
+	}
+	
+	public Date getDatefromSysDate() {
+		Session session = null;
+		Date date = null;
+		try {
+		session = sessionFactory.openSession();
+		SQLQuery createSQLQuery = session.createSQLQuery("SELECT CURRENT_TIMESTAMP sysdateVal FROM SYSIBM.SYSDUMMY1");
+		
+		/* returns Date in a format : 2015-08-19
+		 * createSQLQuery.addScalar("sysdateVal",StandardBasicTypes.DATE);
+		 */
+		createSQLQuery.addScalar("sysdateVal", StandardBasicTypes.DATE);
+		date = (Date) createSQLQuery.uniqueResult();
+		session.close();
+		}catch (HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if(session.isOpen())
+				session.close();
+		}
+		return date;
 	}
 
 }

@@ -1,15 +1,16 @@
 package com.hibernatemanymanybidirectional.service;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.hibernatemanymanybidirectional.dao.BooksAuthorsPersistence;
 
-@Component("booksAuthorsServiceImpl")
+@Service("booksAuthorsServiceImpl")
 public class BooksAuthorsServiceImpl implements BooksAuthorsService {
 
 	@Autowired
@@ -23,7 +24,12 @@ public class BooksAuthorsServiceImpl implements BooksAuthorsService {
 	}
 
 	@Override
-	public GregorianCalendar getDatefromSysDate() {
+	public GregorianCalendar getGregorianCalendarfromSysDate() {
+		return booksAuthorsPersistence.getGregorianCalendarfromSysDate();
+	}
+
+	@Override
+	public Date getDatefromSysDate() {
 		return booksAuthorsPersistence.getDatefromSysDate();
 	}
 }
