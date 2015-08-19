@@ -22,6 +22,19 @@ public class App {
 
 }
 
+/**
+ * OUTPUT
+ * 
+ * 2015-08-19
+ * Wed Aug 19 00:00:00 IST 2015
+ */
+
+
+
+
+
+
+
 
 /**
  * http://javabeginnerstutorial.com/spring-framework-tutorial/spring-transaction-management-tutorial/
