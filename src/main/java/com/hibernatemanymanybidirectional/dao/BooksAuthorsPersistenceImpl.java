@@ -3,6 +3,7 @@ package com.hibernatemanymanybidirectional.dao;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.HibernateException;
@@ -96,6 +97,7 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 		return gregorianCalendar;
 	}
 	
+	@Override
 	public Date getDatefromSysDate() {
 		Session session = null;
 		Date date = null;
@@ -116,6 +118,25 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 				session.close();
 		}
 		return date;
+	}
+	
+	@Override
+	public List<?> getAuthors() {
+		Session session = null;
+		List<?> authors = null;
+		try {
+		session = sessionFactory.openSession();
+		SQLQuery createSQLQuery = session.createSQLQuery("select * from mydb.AUTHOR");
+		createSQLQuery.addEntity(Author.class);
+		authors = createSQLQuery.list();
+		session.close();
+		}catch (HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if(session.isOpen())
+				session.close();
+		}
+		return authors;
 	}
 
 }

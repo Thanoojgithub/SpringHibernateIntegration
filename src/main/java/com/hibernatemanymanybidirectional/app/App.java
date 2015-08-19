@@ -16,6 +16,7 @@ public class App {
 			booksAuthorsService.booksAuthorsPersistenceOperations();
 			System.out.println(booksAuthorsService.getDatefromSysDate());
 			System.out.println(booksAuthorsService.getGregorianCalendarfromSysDate().getTime());
+			System.out.println(booksAuthorsService.getAuthors());
 		}
 		
 	}

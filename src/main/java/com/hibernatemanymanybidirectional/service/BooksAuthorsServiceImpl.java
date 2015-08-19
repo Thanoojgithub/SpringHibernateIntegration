@@ -2,6 +2,7 @@ package com.hibernatemanymanybidirectional.service;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -31,5 +32,10 @@ public class BooksAuthorsServiceImpl implements BooksAuthorsService {
 	@Override
 	public Date getDatefromSysDate() {
 		return booksAuthorsPersistence.getDatefromSysDate();
+	}
+
+	@Override
+	public List<?> getAuthors() {
+		return booksAuthorsPersistence.getAuthors();
 	}
 }

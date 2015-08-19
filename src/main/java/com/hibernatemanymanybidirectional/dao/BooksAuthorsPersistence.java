@@ -2,6 +2,7 @@ package com.hibernatemanymanybidirectional.dao;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public interface BooksAuthorsPersistence {
 
@@ -10,5 +11,7 @@ public interface BooksAuthorsPersistence {
 	public GregorianCalendar getGregorianCalendarfromSysDate();
 
 	public Date getDatefromSysDate();
+
+	List<?> getAuthors();
 
 }
