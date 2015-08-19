@@ -123,11 +123,19 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 	@Override
 	public List<?> getAuthors() {
 		Session session = null;
+		/*
+		 * List<Author> will gives, Warning: Unchecked cast from List to List<Author>
+		 */
 		List<?> authors = null;
 		try {
 		session = sessionFactory.openSession();
 		SQLQuery createSQLQuery = session.createSQLQuery("select * from mydb.AUTHOR");
 		createSQLQuery.addEntity(Author.class);
+		
+		/*
+		 * List<Author> will gives, Warning: Unchecked cast from List to List<Author>
+		 * authors = (List<Author>) createSQLQuery.list();
+		 */
 		authors = createSQLQuery.list();
 		session.close();
 		}catch (HibernateException e) {
