@@ -1,5 +1,7 @@
 package com.hibernatemanymanybidirectional.service;
 
+import java.util.GregorianCalendar;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +20,10 @@ public class BooksAuthorsServiceImpl implements BooksAuthorsService {
 	public void booksAuthorsPersistenceOperations() {
 		booksAuthorsPersistence.booksAuthorsPersistenceOperations();
 
+	}
+
+	@Override
+	public GregorianCalendar getDatefromSysDate() {
+		return booksAuthorsPersistence.getDatefromSysDate();
 	}
 }

@@ -11,10 +11,12 @@ public class App {
 	static Logger logger = LoggerFactory.getLogger(App.class);
 
 	public static void main(String[] args) {
-		try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring-beans.xml")) {
+		/*try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring-beans.xml")) {
 			BooksAuthorsService booksAuthorsService = (BooksAuthorsService) ctx.getBean("booksAuthorsServiceImpl");
 			booksAuthorsService.booksAuthorsPersistenceOperations();
-		}
+			System.out.println(booksAuthorsService.getDatefromSysDate().getTime());
+		}*/
+		
 	}
 
 }
