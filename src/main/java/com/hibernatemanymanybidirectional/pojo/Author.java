@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
+
+import org.hibernate.type.descriptor.sql.JdbcTypeFamilyInformation.Family;
 
 @NamedNativeQueries({ @NamedNativeQuery(name = "findAuthorByAuthorNameNativeSQL", query = "select * from mydb.AUTHOR a where a.A_NAME = :authorName", resultClass = Author.class) })
 @Entity
@@ -29,7 +32,7 @@ public class Author implements Serializable {
 	@Column(name = "A_NAME", unique = true, nullable = false)
 	private String authorName;
 
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "authors")
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "authors", fetch=FetchType.EAGER)
 	private Set<Book> books;
 
 	public Author() {

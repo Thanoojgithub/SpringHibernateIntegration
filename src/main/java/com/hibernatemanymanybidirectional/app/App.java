@@ -1,5 +1,7 @@
 package com.hibernatemanymanybidirectional.app;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,7 +18,10 @@ public class App {
 			booksAuthorsService.booksAuthorsPersistenceOperations();
 			System.out.println(booksAuthorsService.getDatefromSysDate());
 			System.out.println(booksAuthorsService.getGregorianCalendarfromSysDate().getTime());
-			System.out.println(booksAuthorsService.getAuthors());
+			List<?> authors = booksAuthorsService.getAuthors();
+			for (Object object : authors) {
+				System.out.println("List<?> authors "+ object.toString());
+			}
 		}
 		
 	}

@@ -2,12 +2,14 @@ package com.hibernatemanymanybidirectional.pojo;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +19,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @NamedQueries({ @NamedQuery(name = "findBookByBookName", query = "from Book b where b.bookName = :bookName") })
 @Entity
@@ -33,16 +37,21 @@ public class Book implements Serializable {
 	@Column(name = "B_NAME", unique = true, nullable = false)
 	private String bookName;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name = "mydb.Author_Book", joinColumns = @JoinColumn(name = "BID"), inverseJoinColumns = @JoinColumn(name = "AID"))
 	private Set<Author> authors;
+	
+	@Temporal(TemporalType.DATE)
+    @Column(name="PUBLISH_DATE",unique = false, nullable = false)
+    private Date publishDate;
 
 	public Book() {
 	}
 
-	public Book(String bookName) {
+	public Book(String bookName, Date publishDate) {
 		super();
 		this.bookName = bookName;
+		this.publishDate = publishDate;
 	}
 
 	public Long getBookId() {
@@ -71,24 +80,8 @@ public class Book implements Serializable {
 
 	@Override
 	public String toString() {
-		final int maxLen = 10;
-		return "Book [bookId=" + bookId + ", bookName=" + bookName
-				+ ", authors="
-				+ (authors != null ? toString(authors, maxLen) : null) + "]";
-	}
-
-	private String toString(Collection<?> collection, int maxLen) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("[");
-		int i = 0;
-		for (Iterator<?> iterator = collection.iterator(); iterator.hasNext()
-				&& i < maxLen; i++) {
-			if (i > 0)
-				builder.append(", ");
-			builder.append(iterator.next());
-		}
-		builder.append("]");
-		return builder.toString();
+		return "Book [bookId=" + bookId + ", bookName=" + bookName + ", authors=" + authors + ", publishDate="
+				+ publishDate + "]";
 	}
 
 }

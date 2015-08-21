@@ -1,5 +1,6 @@
 package com.hibernatemanymanybidirectional.dao;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.type.StandardBasicTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +34,10 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 	public void booksAuthorsPersistenceOperations() {
 		logger.debug(" ****** Hibernate One-Many Bidirectional - Foreignkey (Annotation) *** START **** ");
 		Session session = null;
+		Transaction tx = null;
 		try {
 			session = sessionFactory.openSession();
+			tx = session.beginTransaction();
 			Set<Author> authors = new HashSet<Author>();
 			Set<Book> books = new HashSet<Book>();
 
@@ -43,31 +47,29 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 			Author author2 = new Author();
 			author2.setAuthorName("Gavin King");
 			authors.add(author2);
-
-			Book book1 = new Book();
-			book1.setBookName("Programming with Spring");
-			Book book2 = new Book();
-			book2.setBookName("Programming with Hibernate");
+			Date time = Calendar.getInstance().getTime();
+			Book book1 = new Book("Programming with Spring", time);
+			Book book2 = new Book("Programming with Hibernate", time);
 			books.add(book1);
 			books.add(book2);
 
 			author1.setBooks(books);
 			author2.setBooks(books);
 
-			book1.setAuthors(authors);
-			book2.setAuthors(authors);
-
 			session.save(author1);
 			session.save(author2);
-
-			OperationsUtils.queryLanguages(session);
-			OperationsUtils.namedQueries(session);
+			tx.commit();
+			//OperationsUtils.queryLanguages(session);
+			//OperationsUtils.namedQueries(session);
 			session.close();
 		} catch (HibernateException e) {
 			e.printStackTrace();
+			if(tx.isActive())
+				tx.rollback();
 		}finally {
 			if(session.isOpen())
 				session.close();
+			
 			
 		}
 		logger.debug(" ****** Hibernate One-Many Bidirectional - Foreignkey (Annotation) *** END **** ");
@@ -147,4 +149,5 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 		return authors;
 	}
 
+	
 }
