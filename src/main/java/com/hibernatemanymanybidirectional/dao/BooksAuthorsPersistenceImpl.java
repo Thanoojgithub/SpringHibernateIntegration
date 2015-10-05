@@ -155,8 +155,17 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 		Session session = null;
 		List<?> list = null;
 		try {
+			
 			session = sessionFactory.openSession();
+			
 			Criteria criteria = session.createCriteria(Author.class);
+			criteria.addOrder(Order.asc(sortByColumn));
+			System.out.println("BooksAuthorsPersistenceImpl.getPaginationAuthorsUsingCriteriaAPI() - start");
+			for (Object object : criteria.list()) {
+				System.out.println(object);
+			}
+			System.out.println("BooksAuthorsPersistenceImpl.getPaginationAuthorsUsingCriteriaAPI() - end");
+			criteria = session.createCriteria(Author.class);
 			criteria.addOrder(Order.asc(sortByColumn));
 			criteria.setFirstResult(firstResult);
 			criteria.setMaxResults(maxResults);

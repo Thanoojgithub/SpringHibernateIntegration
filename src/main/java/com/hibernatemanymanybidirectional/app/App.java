@@ -22,12 +22,14 @@ public class App {
 		try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring-beans.xml")) {
 			BooksAuthorsService booksAuthorsService = (BooksAuthorsService) ctx.getBean("booksAuthorsServiceImpl");
 			// sorting column could me send by UI to DAO call
-			List<?> paginationAuthorsUsingCriteriaAPISortByAuthorId = booksAuthorsService.getPaginationAuthorsUsingCriteriaAPI(1, 10, AuthorSortByColumn.authorName.getValue());
-			List<?> paginationAuthorsUsingCriteriaAPISortByAuthorName = booksAuthorsService.getPaginationAuthorsUsingCriteriaAPI(11, 10, AuthorSortByColumn.authorId.getValue());
+			int maxResultVal = 10;
+			int firstResultVal = 1;
+			List<?> paginationAuthorsUsingCriteriaAPISortByAuthorId = booksAuthorsService.getPaginationAuthorsUsingCriteriaAPI((firstResultVal - 1) * maxResultVal, maxResultVal, AuthorSortByColumn.authorName.getValue());
+			firstResultVal = 2;
+			List<?> paginationAuthorsUsingCriteriaAPISortByAuthorName = booksAuthorsService.getPaginationAuthorsUsingCriteriaAPI((firstResultVal - 1) * maxResultVal, maxResultVal, AuthorSortByColumn.authorId.getValue());
 			for (Object object : paginationAuthorsUsingCriteriaAPISortByAuthorId) {
 				System.out.println("List<?> paginationAuthorsUsingCriteriaAPISortByAuthorId "+ object.toString());
 			}
-			
 			for (Object object : paginationAuthorsUsingCriteriaAPISortByAuthorName) {
 				System.out.println("List<?> paginationAuthorsUsingCriteriaAPISortByAuthorName "+ object.toString());
 			}
