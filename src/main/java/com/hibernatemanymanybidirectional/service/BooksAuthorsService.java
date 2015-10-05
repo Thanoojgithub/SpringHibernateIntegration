@@ -13,4 +13,6 @@ public interface BooksAuthorsService {
 	public Date getDatefromSysDate();
 	
 	List<?> getAuthors();
+	
+	List<?> getPaginationAuthorsUsingCriteriaAPI(int firstResult, int maxResults, String sortByColumn);
 }

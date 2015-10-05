@@ -13,5 +13,7 @@ public interface BooksAuthorsPersistence {
 	public Date getDatefromSysDate();
 
 	List<?> getAuthors();
+	
+	List<?> getPaginationAuthorsUsingCriteriaAPI(int firstResult, int maxResults, String sortByColumn);
 
 }

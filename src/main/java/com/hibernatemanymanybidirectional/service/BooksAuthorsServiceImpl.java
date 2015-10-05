@@ -38,4 +38,9 @@ public class BooksAuthorsServiceImpl implements BooksAuthorsService {
 	public List<?> getAuthors() {
 		return booksAuthorsPersistence.getAuthors();
 	}
+
+	@Override
+	public List<?> getPaginationAuthorsUsingCriteriaAPI(int firstResult, int maxResults, String sortByColumn) {
+		return booksAuthorsPersistence.getPaginationAuthorsUsingCriteriaAPI(firstResult, maxResults, sortByColumn);
+	}
 }

@@ -7,12 +7,35 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.hibernatemanymanybidirectional.service.BooksAuthorsService;
+import com.hibernatemanymanybidirectional.util.AuthorSortByColumn;
 
 public class App {
 
 	static Logger logger = LoggerFactory.getLogger(App.class);
 
 	public static void main(String[] args) {
+		displayAuthors();
+		authorsPaginationUsingCriteriaAPI();
+	}
+
+	private static void authorsPaginationUsingCriteriaAPI() {
+		try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring-beans.xml")) {
+			BooksAuthorsService booksAuthorsService = (BooksAuthorsService) ctx.getBean("booksAuthorsServiceImpl");
+			// sorting column could me send by UI to DAO call
+			List<?> paginationAuthorsUsingCriteriaAPISortByAuthorId = booksAuthorsService.getPaginationAuthorsUsingCriteriaAPI(1, 10, AuthorSortByColumn.authorName.getValue());
+			List<?> paginationAuthorsUsingCriteriaAPISortByAuthorName = booksAuthorsService.getPaginationAuthorsUsingCriteriaAPI(11, 10, AuthorSortByColumn.authorId.getValue());
+			for (Object object : paginationAuthorsUsingCriteriaAPISortByAuthorId) {
+				System.out.println("List<?> paginationAuthorsUsingCriteriaAPISortByAuthorId "+ object.toString());
+			}
+			
+			for (Object object : paginationAuthorsUsingCriteriaAPISortByAuthorName) {
+				System.out.println("List<?> paginationAuthorsUsingCriteriaAPISortByAuthorName "+ object.toString());
+			}
+		}
+	
+	}
+
+	private static void displayAuthors() {
 		try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring-beans.xml")) {
 			BooksAuthorsService booksAuthorsService = (BooksAuthorsService) ctx.getBean("booksAuthorsServiceImpl");
 			booksAuthorsService.booksAuthorsPersistenceOperations();
@@ -23,9 +46,7 @@ public class App {
 				System.out.println("List<?> authors "+ object.toString());
 			}
 		}
-		
 	}
-
 }
 
 /**

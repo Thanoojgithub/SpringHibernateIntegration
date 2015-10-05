@@ -7,11 +7,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.type.StandardBasicTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,6 @@ import org.springframework.stereotype.Repository;
 
 import com.hibernatemanymanybidirectional.pojo.Author;
 import com.hibernatemanymanybidirectional.pojo.Book;
-import com.hibernatemanymanybidirectional.util.OperationsUtils;
 
 @Repository
 public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
@@ -147,6 +148,27 @@ public class BooksAuthorsPersistenceImpl implements BooksAuthorsPersistence {
 				session.close();
 		}
 		return authors;
+	}
+
+	@Override
+	public List<?> getPaginationAuthorsUsingCriteriaAPI(int firstResult, int maxResults, String sortByColumn) {
+		Session session = null;
+		List<?> list = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria criteria = session.createCriteria(Author.class);
+			criteria.addOrder(Order.asc(sortByColumn));
+			criteria.setFirstResult(firstResult);
+			criteria.setMaxResults(maxResults);
+			list = criteria.list();
+			session.close();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			if (session.isOpen())
+				session.close();
+		}
+		return list;
 	}
 
 	
